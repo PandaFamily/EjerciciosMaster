@@ -31,5 +31,5 @@ while (not Usuario in DiccionarioUsuarios.keys()):
 	Usuario = raw_input('Introduce Usuario: ')
 
 # Ya deberia haber un usuario valido en la varuable Usuario. Solo queda escribir su shell.
-print 'Usuario loca valido encontrado. Shell: ' + DiccionarioUsuarios[Usuario]
+print 'Usuario local valido encontrado: ' + Usuario + '. Shell: ' + DiccionarioUsuarios[Usuario]
 
