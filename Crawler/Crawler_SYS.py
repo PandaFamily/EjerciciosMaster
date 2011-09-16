@@ -8,6 +8,7 @@ Enlace = 'http://meneame.net'
 
 def MuestraEnlaces(EnlaceT, ProfundidadT):
     if ProfundidadT == 0: return 0
+    print 'Profundidad: ', ProfundidadT, 'Enlace: ', EnlaceT
     WebDownloader = urllib2.build_opener()
     CodigoHTML = WebDownloader.open(EnlaceT)
     CodigoSOUP = BS(CodigoHTML)
@@ -15,6 +16,5 @@ def MuestraEnlaces(EnlaceT, ProfundidadT):
                         in CodigoSOUP.findAll('a')
                         if link.has_key('href')]
     for EnlaceTemporal in Enlaces:
-        print EnlaceTemporal
         MuestraEnlaces(EnlaceTemporal, Profundidad - 1)
 MuestraEnlaces(Enlace, Profundidad)
