@@ -1,14 +1,19 @@
+#!/usr/bin/env python
 from BeautifulSoup import BeautifulSoup as BS
 import urllib2
+import sys
 
-WebDownloader = urllib2.build_opener()
-CodigoHTML = WebDownloader.open('http://meneame.net')
-CodigoSOUP = BS(CodigoHTML)
+Profundidad = 3
+Enlace = 'http://meneame.net'
 
-Enlaces = [link['href'] for link
+def MuestraEnlaces(Enlace, Profundidad):
+    if Profundidad == 0: return 0
+    WebDownloader = urllib2.build_opener()
+    CodigoHTML = WebDownloader.open(Enlace)
+    CodigoSOUP = BS(CodigoHTML)
+    Enlaces = [link['href'] for link
                         in CodigoSOUP.findAll('a')
                         if link.has_key('href')]
-print Enlaces
-#print CodigoHTML
-#print CodigoSOUP 
-
+    for EnlaceTemporal in Enlaces:
+        print EnlaceTemporal
+        MuestraEnlaces(EnlaceTemporal, Profundidad - 1)
