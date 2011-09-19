@@ -60,10 +60,18 @@ def MuestraEnlaces(EnlaceT, ProfundidadT):
 
     # Abrimos el Enlace, descargamos la URL y la parseamos
     WebDownloader = urllib2.build_opener()
-    print 'ANTES DE LA APERTURA DE ', EnlaceT
-    CodigoHTML = WebDownloader.open(EnlaceT)
+
+    # Hay que comprobar el resultado del open() de la web, por si hay 404, 403, 500...
+    try:
+        CodigoHTML = WebDownloader.open(EnlaceT)
+    except urllib2.URLError, Error:
+        print Error
+        return -1
+    except urllib2.HTTPError, Error:
+        print Error
+        return -1
+
     CodigoSOUP = BS(CodigoHTML)
-    print 'DESPUES DE LA APERTURA DE ', EnlaceT
 
     # Iteracion para sacar los enlaces
     Enlaces = [link['href'] for link
@@ -89,4 +97,5 @@ if Resultado != 0:
     sys.exit(-1)
 
 # Deberia ir bien ya
+TodosLosEnlaces = [ Enlace ]
 MuestraEnlaces(Enlace, Profundidad)
