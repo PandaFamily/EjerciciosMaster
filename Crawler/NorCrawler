@@ -71,6 +71,7 @@ def MuestraEnlaces(EnlaceT, ProfundidadT):
         print Error
         return -1
 
+    # la URL se ha abierto correctamente y hay que parsearla con BeautifulSoup
     CodigoSOUP = BS(CodigoHTML)
 
     # Iteracion para sacar los enlaces
