@@ -35,14 +35,19 @@ TodosLosEnlaces = [ '' ]
 
 def CompruebaEnlace(CadenaEnlace):
     # En esta funcion hay que comprobar si el enlace hay que visitarlo o no:
-    # - Debe empezar pot http:
+    # - Debe empezar por http:
     # - No debe haberse visitado antes.
     global TodosLosEnlaces
     Resultado = CadenaEnlace.find('http:')
-    if ( Resultado != 0 or CadenaEnlace in TodosLosEnlaces):
+    if ( Resultado != 0 ):
+        print 'Enlace Incorrecto: ', CadenaEnlace
         return -1
+    elif ( CadenaEnlace in TodosLosEnlaces ):
+        print 'Enlace YA visitado: ', CadenaEnlace
+        return -2
     else:
-        return 0 
+        return 0
+    
 
 # Esta es la funcion recursiva para ir descargando URLs
 def MuestraEnlaces(EnlaceT, ProfundidadT):
@@ -71,7 +76,6 @@ def MuestraEnlaces(EnlaceT, ProfundidadT):
 
         # Si la funcion para comprobar los enlaces no devuelve 0, el enlace hay que descartarlo.
         if ResultadoTemporal != 0:
-            print 'Enlace Incorrecto: ', EnlaceTemporal
             continue
         else:
             print TodosLosEnlaces
