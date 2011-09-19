@@ -24,18 +24,31 @@ import sys
 Analizador = argparse.ArgumentParser(description="Naveguemos por Internet")
 Analizador.add_argument('url', nargs=1, help='Punto de Entrada')
 Analizador.add_argument('-p', '--profundidad', type=int, default=1, help='Profundidad del crawl')
-Argumentos=Analizador.parse_args()
+Argumentos = Analizador.parse_args()
 
 # Inicializamos los argumentos
 Enlace = Argumentos.url.pop()
 Profundidad = Argumentos.profundidad
 
+# Variable GLOBAL con la lista de Enlaces.
+TodosLosEnlaces = [ '' ]
+
 def CompruebaEnlace(CadenaEnlace):
+    # En esta funcion hay que comprobar si el enlace hay que visitarlo o no:
+    # - Debe empezar pot http:
+    # - No debe haberse visitado antes.
+    global TodosLosEnlaces
     Resultado = CadenaEnlace.find('http:')
-    return Resultado
+    if ( Resultado != 0 or CadenaEnlace in TodosLosEnlaces):
+        return -1
+    else:
+        return 0 
 
 # Esta es la funcion recursiva para ir descargando URLs
 def MuestraEnlaces(EnlaceT, ProfundidadT):
+    # Variable para guardar todos los enlaces que se van visitando para no repetir y no entrar en bucle.
+    global TodosLosEnlaces
+
     # Condicion de Salida para el fin del bucle recursivo.
     if ProfundidadT == -1: return 0
     print 'Profundidad: ', ProfundidadT, 'Enlace: ', EnlaceT
@@ -61,7 +74,8 @@ def MuestraEnlaces(EnlaceT, ProfundidadT):
             print 'Enlace Incorrecto: ', EnlaceTemporal
             continue
         else:
-            print EnlaceTemporal
+            print TodosLosEnlaces
+            TodosLosEnlaces.append(EnlaceTemporal)
             MuestraEnlaces(EnlaceTemporal, Profundidad - 1)
 
 # Comenzamos el bucle principal
